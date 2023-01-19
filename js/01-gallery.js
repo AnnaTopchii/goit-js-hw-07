@@ -45,18 +45,22 @@ function onSmallImageClick(evt) {
     openModalBigImage(urlOfBigImage);
 }
 
+
+
 function openModalBigImage(url) {
-    
+    const closeModal = evt => {
+    console.log("Some key was pressed");
+    if (evt.code === 'Escape') { bigImage.close(); }
+};
+
     const bigImage = basicLightbox.create(`
 		<img src="${url}">`,
-        { onShow: (bigImage) =>
-                document.addEventListener('keydown', function close(evt) {
-                    console.log("Some key was pressed");
-            if (evt.code === 'Escape') { bigImage.close(); }
-            }
-          ),
-          onClose: (bigImage) => document.removeEventListener('keydown', close)
-        })
-        .show();
+        {
+            onShow: (bigImage) =>
+                document.addEventListener('keydown', closeModal),
+            onClose: (bigImage) =>
+                document.removeEventListener('keydown', closeModal)
+        });
+        bigImage.show();
 }  
 	
